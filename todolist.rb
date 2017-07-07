@@ -12,6 +12,11 @@ module Menu
 end
 
 module Promptable
+  def prompt(message - "What would you like to do?", symbol = ":> ")
+    print message
+    print symbol
+    gets.chomp
+  end
 end
 
 class Task
