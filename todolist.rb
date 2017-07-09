@@ -5,7 +5,8 @@ module Menu
       2)  Show
       3)  Write to a File 
       4)  Read from file
-      5)  Quit"
+      5)  Delete a task from the list
+      6)  Quit"
   end
 
   def show
@@ -32,7 +33,7 @@ class List
   end
 
   def show
-    all_tasks
+    all_tasks.map.with_index { | l, i| "(#{i.next}): #{l}"}
   end
 
   def write_to_file(filename)
@@ -42,7 +43,11 @@ class List
   def read_from_file(filename)
     IO.readlines(filename).each do |line|
       add(Task.new(line.chomp))
-    end
+    end 
+  end
+
+  def delete(task_number)
+    all_tasks.delete_at(task_number - 1)
   end
 
 end
@@ -75,13 +80,16 @@ if __FILE__ == $PROGRAM_NAME
       when "3"
         my_list.write_to_file(prompt("What is the filename to write to?"))
 
-
       when "4"
         begin
           my_list.read_from_file(prompt("What is the filename to read from?"))
         rescue Errno::ENOENT
           puts "file name not found, verify filename and path"
         end
+
+      when "5"
+        puts my_list.show
+        my_list.delete(prompt("What is the task you would like to delete?").to_i)
 
       else
         puts "Sorry, I did not understand or q to quit"
