@@ -6,7 +6,8 @@ module Menu
       3)  Write to a File 
       4)  Read from file
       5)  Delete a task from the list
-      6)  Quit"
+      6)  Update a task from the list
+      7)  Quit"
   end
 
   def show
@@ -50,6 +51,10 @@ class List
     all_tasks.delete_at(task_number - 1)
   end
 
+  def update(task_number, task)
+    all_tasks[task_number - 1] = task
+  end
+
 end
 
 class Task
@@ -90,6 +95,10 @@ if __FILE__ == $PROGRAM_NAME
       when "5"
         puts my_list.show
         my_list.delete(prompt("What is the task you would like to delete?").to_i)
+      
+      when "6"
+        my_list.update(prompt("What task would you like to update?").to_i,
+        Task.new(prompt('Task Description')))
 
       else
         puts "Sorry, I did not understand or q to quit"
